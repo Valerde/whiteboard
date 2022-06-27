@@ -1,32 +1,24 @@
 package ykn.sovava.server.GUI;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import java.util.ArrayList;
+
 /**
  * Description: TODO
  *
  * @author: ykn
  * @date: 2022年06月26日 14:02
  **/
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-
-/**
- * @ClassName CanvasFactory
- * @Description TODO
- * @Author Mr_X
- * @Date 2022/4/29 9:34
- * @Version 1.0
- */
 public class CanvasFactory implements PropertyInterface {
 
     double strokeWidth = strokeWidths[0];
     Color strokeColor = strokeColors[0];
     int command = commands[0];
-    double canvasWidth;
-    double canvasHeight;
+    double canvasWidth1;
+    double canvasHeight1;
     ArrayList<Double> properties;
 
     //每帧传输这个玩意
@@ -40,7 +32,6 @@ public class CanvasFactory implements PropertyInterface {
     final GraphicsContext gc;
 
 
-
     public CanvasFactory(Canvas canvas) {
         this.canvas = canvas;
         canvas.setLayoutX(0.0);
@@ -49,8 +40,9 @@ public class CanvasFactory implements PropertyInterface {
     }
 
     public CanvasFactory() {
-        canvas = new Canvas(stageWidth,stageHeight);
+        canvas = new Canvas(canvasWidth, canvasHeight);
         gc = canvas.getGraphicsContext2D();
+        System.out.println(canvas.getWidth() +"canvas"+ canvas.getHeight());
     }
 
     public Canvas getCanvas() {
@@ -74,7 +66,7 @@ public class CanvasFactory implements PropertyInterface {
         this.command = command;
     }
 
-    public void mouseListenerPaint(){
+    public void mouseListenerPaint() {
 
         //鼠标落下即可得到起始位置的坐标点
         canvas.setOnMousePressed(event -> {
@@ -139,13 +131,13 @@ public class CanvasFactory implements PropertyInterface {
 
     }
 
-    public ArrayList<Double> getCanvasProperty(){
+    public ArrayList<Double> getCanvasProperty() {
         //监听画布的长高属性并返回。
-        canvas.widthProperty().addListener((observable, oldValue, newValue) -> canvasWidth = newValue.doubleValue());
-        canvas.heightProperty().addListener((observable, oldValue, newValue) -> canvasHeight = newValue.doubleValue());
+        canvas.widthProperty().addListener((observable, oldValue, newValue) -> canvasWidth1 = newValue.doubleValue());
+        canvas.heightProperty().addListener((observable, oldValue, newValue) -> canvasHeight1 = newValue.doubleValue());
         ArrayList<Double> properties = new ArrayList<>();
-        properties.add(canvasWidth);
-        properties.add(canvasHeight);
+        properties.add(canvasWidth1);
+        properties.add(canvasHeight1);
         return properties;
     }
 }

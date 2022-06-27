@@ -110,6 +110,7 @@ public class MenuBarFactory implements PropertyInterface {
         manageC.setOnAction(event -> {
             ArrayList<Double> canvasProperty = canvasFactory.getCanvasProperty();
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            System.out.println(canvas.getWidth() +" "+ canvas.getHeight());
             snapshot = null;
         });
 

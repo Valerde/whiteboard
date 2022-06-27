@@ -16,7 +16,7 @@ public class DrawCanvas implements PropertyInterface {
     final GraphicsContext gc;
     private WritableImage snapshot;
     public DrawCanvas( ) {
-        clientCanvas= new Canvas(stageWidth,stageHeight);
+        clientCanvas= new Canvas(canvasWidth,canvasHeight);
         gc = clientCanvas.getGraphicsContext2D();
     }
     public Canvas getCanvas(){
