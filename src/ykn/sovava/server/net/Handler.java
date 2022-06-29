@@ -25,7 +25,7 @@ import java.util.List;
 public class Handler extends ServerSceneChange implements Runnable {
 
 
-    private Socket s = null;
+    public Socket s = null;
     private Refresh refresh = null;
     private CanvasFactory canvasFactory = null;
 
@@ -42,29 +42,32 @@ public class Handler extends ServerSceneChange implements Runnable {
     }
 
     public void run() {
-        while (true) {
+        while (run) {
 
             //refresh.start();
-            try {
-                String msg = br.readLine();
-                String[] msgHandle = msg.split(":");
-                switch (msgHandle[0]) {
-                    case Header.chatHeader: {
-                        for (Handler handler : clientList) {
-                            handler.ps.println(Header.chatHeader + ":" + msgHandle[1]);
+            if (run) {
+
+                try {
+                    String msg = br.readLine();
+                    String[] msgHandle = msg.split("\\^");
+                    switch (msgHandle[0]) {
+                        case Header.chatHeader: {
+                            for (Handler handler : clientList) {
+                                handler.ps.println(Header.chatHeader + "^" + msgHandle[1]);
+                            }
+                            receivedMsgArea.appendText(msgHandle[1] + "\r\n");
+                            break;
                         }
-                        receivedMsgArea.appendText(msgHandle[1] + "\r\n");
-                        break;
-                    }
 //                case Header.fileHeader: {
 //                    break;
 //                }
 //                case Header.canvasHeader: {
 //                    break;
 //                }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

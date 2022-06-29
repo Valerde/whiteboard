@@ -38,7 +38,7 @@ public abstract class SceneChange extends SceneInit {
 
     protected void send() {
         String text = msgText.getText();
-        ps.println(Header.chatHeader + ":有同学提问," + text);
+        ps.println(Header.chatHeader + "^有同学提问," + text);
         if (msgText != null) msgText.clear();
     }
 }
