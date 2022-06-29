@@ -1,4 +1,4 @@
-package ykn.sovava.server.GUI;
+package ykn.sovava.server.util;
 
 import javafx.scene.paint.Color;
 

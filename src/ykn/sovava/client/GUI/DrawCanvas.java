@@ -1,9 +1,9 @@
-package ykn.sovava.client;
+package ykn.sovava.client.GUI;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
-import ykn.sovava.server.GUI.PropertyInterface;
+import ykn.sovava.server.util.PropertyInterface;
 
 /**
  * Description: TODO

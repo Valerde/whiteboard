@@ -10,6 +10,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import ykn.sovava.server.util.PropertyInterface;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
