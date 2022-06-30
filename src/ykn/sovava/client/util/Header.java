@@ -1,7 +1,7 @@
 package ykn.sovava.client.util;
 
 /**
- * Description: TODO
+ * Description: 消息头
  *
  * @author: ykn
  * @date: 2022年06月29日 16:16

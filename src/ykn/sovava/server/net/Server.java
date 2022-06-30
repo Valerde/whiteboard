@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: TODO
+ * Description: 服务器主线程
  *
  * @author: ykn
  * @date: 2022年06月26日 14:57
@@ -19,16 +19,15 @@ import java.util.List;
 public class Server extends ServerSceneChange implements Runnable {
     private ServerSocket ss = null;
     public List<Handler> clientList = new ArrayList<>();
-
-    //private CanvasFactory canvasFactory;
-    Handler hd = null;
+    private ServerSocket css;
+    private Handler hd = null;
 
 
     public Server(Stage stage) throws IOException {
         super(stage);
 
-        //this.canvasFactory = canvasFactory;
         ss = new ServerSocket(12345);
+        css = new ServerSocket(12346);
         new Thread(this).start();
     }
 
@@ -37,7 +36,8 @@ public class Server extends ServerSceneChange implements Runnable {
         while (true) {
             try {
                 Socket s1 = ss.accept();
-                hd = new Handler(s1, clientList);
+                Socket cs1 = css.accept();
+                hd = new Handler(s1, clientList,cs1);
 
                 //System.out.println(hd);
                 new Thread(hd).start();

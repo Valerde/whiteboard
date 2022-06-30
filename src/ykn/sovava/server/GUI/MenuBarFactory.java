@@ -19,16 +19,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Description: TODO
+ * Description: 按钮
  *
  * @author: ykn
  * @date: 2022年06月26日 14:03
  **/
 public class MenuBarFactory implements PropertyInterface {
-    double strokeWidth = strokeWidths[0];
-    Color strokeColor = strokeColors[0];
-    int command = commands[0];
-
 
     private CanvasFactory canvasFactory = new CanvasFactory();
     private Canvas canvas;
@@ -117,7 +113,7 @@ public class MenuBarFactory implements PropertyInterface {
 
 
         manageS.setOnAction(event -> {
-            snapshot = canvas.snapshot(null, null);
+            snapshot =  canvas.snapshot(null, null);
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(snapshot, null);
 
             FileChooser fileChooser = new FileChooser();

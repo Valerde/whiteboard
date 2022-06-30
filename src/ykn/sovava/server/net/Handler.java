@@ -1,23 +1,14 @@
 package ykn.sovava.server.net;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.scene.input.KeyCode;
-import ykn.sovava.server.GUI.CanvasFactory;
-
 import ykn.sovava.server.GUI.ServerSceneChange;
-import ykn.sovava.server.GUI.ServerSceneInit;
 import ykn.sovava.server.util.Header;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
 /**
- * Description: TODO
+ * Description: 每个套接字的处理
  *
  * @author: ykn
  * @date: 2022年06月26日 15:00
@@ -26,25 +17,26 @@ public class Handler extends ServerSceneChange implements Runnable {
 
 
     public Socket s = null;
-    private Refresh refresh = null;
-    private CanvasFactory canvasFactory = null;
+    public Socket cs;
+    private Refresh refresh;
+    private ObjectOutputStream oos;
 
-
-    public Handler(Socket s, List<Handler> clientList) throws IOException {
+    public Handler(Socket s, List<Handler> clientList, Socket cs) throws IOException {
         super();
         clientList.add(this);
         this.s = s;
-        //this.canvasFactory = canvasFactory;
+        this.cs = cs;
         this.clientList = clientList;
         br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         ps = new PrintStream(s.getOutputStream());
+        oos = new ObjectOutputStream(this.cs.getOutputStream());
+        refresh = new Refresh();
 
     }
 
     public void run() {
+        refresh.start();
         while (run) {
-
-            //refresh.start();
             if (run) {
 
                 try {
@@ -58,12 +50,16 @@ public class Handler extends ServerSceneChange implements Runnable {
                             receivedMsgArea.appendText(msgHandle[1] + "\r\n");
                             break;
                         }
-//                case Header.fileHeader: {
-//                    break;
-//                }
-//                case Header.canvasHeader: {
-//                    break;
-//                }
+                        case "over":{
+                            run = false;
+                            clientList.remove(this);
+                            System.out.println("over");
+                            ps.close();
+                            br.close();
+//                            fis.close();
+//                            dos.close();
+                            s.close();
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -76,8 +72,11 @@ public class Handler extends ServerSceneChange implements Runnable {
     private class Refresh extends AnimationTimer {
         @Override
         public void handle(long now) {
-            //序列化传输
+            for (Handler handler : clientList) {
+                handler.ps.println(Header.canvasHeader + "^" + canvasFactory.getCanvasMSG().getMSG());
+            }
 
+            canvasFactory.getCanvasMSG().setFlag(0);
         }
     }
 }

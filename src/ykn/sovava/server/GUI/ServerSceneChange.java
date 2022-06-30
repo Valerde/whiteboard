@@ -15,7 +15,7 @@ import java.net.Socket;
 import java.util.List;
 
 /**
- * Description: TODO
+ * Description: 服务器端改变
  *
  * @author: ykn
  * @date: 2022年06月29日 17:40
@@ -71,12 +71,15 @@ public abstract class ServerSceneChange extends ServerSceneInit {
             fileChooser.getExtensionFilters().add(extFilter);
             file[0] = fileChooser.showOpenDialog(stage);
 
-            msgText.appendText("选择发送文件:" + file[0].getName());
+            //msgText.appendText("选择发送文件:" + file[0].getName());
             System.out.println(file[0]);
+            receivedMsgArea.appendText("开始传输文件\r\n");
+
             try {
+                //Thread.sleep(50);
                 for (Handler handler : clientList) {
                     handler.ps.println(Header.chatHeader + "^开始传输文件");
-                    receivedMsgArea.appendText("开始传输文件\r\n");
+
                     handler.ps.println(Header.fileHeader + "^ ");
                     run = false;
                     sendFile(file[0], handler);

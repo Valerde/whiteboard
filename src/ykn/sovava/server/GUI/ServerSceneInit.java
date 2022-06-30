@@ -1,5 +1,6 @@
 package ykn.sovava.server.GUI;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -8,25 +9,31 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import ykn.sovava.server.util.PropertyInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Description: TODO
+ * Description: 服务器界面初始化
  *
  * @author: ykn
  * @date: 2022年06月29日 16:36
  **/
 public abstract class ServerSceneInit implements PropertyInterface {
-    static final CanvasFactory canvasFactory = new CanvasFactory();
-    static final MenuBarFactory menuBarFactory = new MenuBarFactory(canvasFactory);
-    static final MenuBar menuBar = menuBarFactory.getMenuBar();
-    static final Canvas canvas = canvasFactory.getCanvas();
+    public static final CanvasFactory canvasFactory = new CanvasFactory();
+    public static final MenuBarFactory menuBarFactory = new MenuBarFactory(canvasFactory);
+    public static final MenuBar menuBar = menuBarFactory.getMenuBar();
+    public static final Canvas canvas = canvasFactory.getCanvas();
     public static TextArea receivedMsgArea;
     public static TextArea msgText;
     public static Button sendButton;
     public static Button fileButton;
     public static Stage stage;
+
 
     public ServerSceneInit() {
     }
@@ -95,5 +102,12 @@ public abstract class ServerSceneInit implements PropertyInterface {
         primaryStage.setWidth(stageWidth);
 
         primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+//                ps.println("over");
+                System.exit(0);
+            }
+        });
     }
 }

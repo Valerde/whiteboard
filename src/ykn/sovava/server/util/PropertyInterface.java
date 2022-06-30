@@ -2,9 +2,12 @@ package ykn.sovava.server.util;
 
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
- * Description: TODO
+ * Description:属性接口
  *
  * @author: ykn
  * @date: 2022/6/26 14:01

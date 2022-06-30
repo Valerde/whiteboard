@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import ykn.sovava.server.util.PropertyInterface;
 
 /**
- * Description: TODO
+ * Description: 客户端入口
  *
  * @author: ykn
  * @date: 2022年06月26日 14:40
