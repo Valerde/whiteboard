@@ -21,21 +21,19 @@ import static ykn.sovava.client.util.FormatFileSize.getFormatFileSize;
  **/
 public class ClientThread extends SceneChange implements Runnable {
     public Socket s;
-    public Socket cs;
+//    public Socket cs;
     private DataInputStream dis;
-    private ObjectInputStream ois;
+//    private ObjectInputStream ois;
     private FileOutputStream fos;
     private Boolean run = true;
 
-    //    private Refresh refresh;
     public ClientThread(Stage stage) throws IOException {
         super(stage);
         s = new Socket("127.0.0.1", 12345);
-        cs = new Socket("127.0.0.1", 12346);
+//        cs = new Socket("127.0.0.1", 12346);
         br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         ps = new PrintStream(s.getOutputStream());
-        ois = new ObjectInputStream(cs.getInputStream());
-//        refresh = new Refresh();
+//        ois = new ObjectInputStream(cs.getInputStream());
 
     }
 
@@ -74,12 +72,7 @@ public class ClientThread extends SceneChange implements Runnable {
                 break;
             }
             case Header.fileHeader: {
-
-                //Platform.runLater(new Task(s));
-//                Platform.runLater(()->{
                 receiveFile();
-//                });
-
                 break;
             }
             case Header.canvasHeader: {

@@ -17,19 +17,19 @@ public class Handler extends ServerSceneChange implements Runnable {
 
 
     public Socket s = null;
-    public Socket cs;
+//    public Socket cs;
     private Refresh refresh;
-    private ObjectOutputStream oos;
+//    private ObjectOutputStream oos;
 
-    public Handler(Socket s, List<Handler> clientList, Socket cs) throws IOException {
+    public Handler(Socket s, List<Handler> clientList) throws IOException {
         super();
         clientList.add(this);
         this.s = s;
-        this.cs = cs;
+//        this.cs = cs;
         this.clientList = clientList;
         br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         ps = new PrintStream(s.getOutputStream());
-        oos = new ObjectOutputStream(this.cs.getOutputStream());
+//        oos = new ObjectOutputStream(this.cs.getOutputStream());
         refresh = new Refresh();
 
     }
@@ -40,7 +40,7 @@ public class Handler extends ServerSceneChange implements Runnable {
             if (run) {
 
                 try {
-                    String msg = br.readLine();
+                    String msg = br.readLine()+"";
                     String[] msgHandle = msg.split("\\^");
                     switch (msgHandle[0]) {
                         case Header.chatHeader: {

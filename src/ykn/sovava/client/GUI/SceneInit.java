@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 //import ykn.sovava.server.GUI.CanvasFactory;
 import javafx.stage.WindowEvent;
 import ykn.sovava.server.GUI.CanvasFactory;
+import ykn.sovava.server.GUI.MenuBarFactory;
 import ykn.sovava.server.util.PropertyInterface;
 
 import java.util.HashMap;
@@ -29,18 +31,23 @@ import java.util.Map;
 public abstract class SceneInit implements PropertyInterface {
 
     public static Canvas clientCanvas;
+    public static MenuClient menuBarFactory;
+    public static MenuBar menuBar;
     public static TextArea receivedMsgArea;
     public static TextArea msgText;
     public static Button sendButton;
     public static Stage stage = null;
     public static GraphicsContext gc;
-    public WritableImage snapshot;
-    public static Map<Integer,Color> colorMap = new HashMap<>();
+
+    public static Map<Integer, Color> colorMap = new HashMap<>();
+//    public static double myStrokeWidth = strokeWidths[0];
+//    public static Color myStrokeColor = strokeColors[1];
+//    public static int myCommand = commands[0];
     static {
-        colorMap.put(0,Color.BLACK);
-        colorMap.put(1,Color.RED);
-        colorMap.put(2,Color.YELLOW);
-        colorMap.put(3,Color.BLUE);
+        colorMap.put(0, Color.BLACK);
+        colorMap.put(1, Color.RED);
+        colorMap.put(2, Color.YELLOW);
+        colorMap.put(3, Color.BLUE);
     }
 
     public SceneInit(Stage stage) {
@@ -48,15 +55,13 @@ public abstract class SceneInit implements PropertyInterface {
         initStage(stage);
     }
 
-    public Canvas getCanvas() {
-        return clientCanvas;
-    }
-
 
 
     private void initStage(Stage primaryStage) {
 
         clientCanvas = new Canvas(canvasWidth, canvasHeight);
+        menuBarFactory = new MenuClient(clientCanvas);
+        menuBar = menuBarFactory.getMenuBar();
         gc = clientCanvas.getGraphicsContext2D();
 
 
@@ -67,7 +72,7 @@ public abstract class SceneInit implements PropertyInterface {
 
 
         BorderPane borderPane = new BorderPane();
-        //borderPane.setTop(menuBar);
+        borderPane.setTop(menuBar);
         borderPane.setCenter(anchorPane);
         GridPane rightPane1 = new GridPane();
         rightPane1.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));

@@ -19,7 +19,7 @@ import java.util.List;
 public class Server extends ServerSceneChange implements Runnable {
     private ServerSocket ss = null;
     public List<Handler> clientList = new ArrayList<>();
-    private ServerSocket css;
+//    private ServerSocket css;
     private Handler hd = null;
 
 
@@ -27,7 +27,7 @@ public class Server extends ServerSceneChange implements Runnable {
         super(stage);
 
         ss = new ServerSocket(12345);
-        css = new ServerSocket(12346);
+//        css = new ServerSocket(12346);
         new Thread(this).start();
     }
 
@@ -36,8 +36,8 @@ public class Server extends ServerSceneChange implements Runnable {
         while (true) {
             try {
                 Socket s1 = ss.accept();
-                Socket cs1 = css.accept();
-                hd = new Handler(s1, clientList,cs1);
+//                Socket cs1 = css.accept();
+                hd = new Handler(s1, clientList);
 
                 //System.out.println(hd);
                 new Thread(hd).start();

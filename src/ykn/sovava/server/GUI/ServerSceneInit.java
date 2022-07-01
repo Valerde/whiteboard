@@ -105,7 +105,6 @@ public abstract class ServerSceneInit implements PropertyInterface {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-//                ps.println("over");
                 System.exit(0);
             }
         });

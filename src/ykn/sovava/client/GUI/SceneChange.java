@@ -4,14 +4,14 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import ykn.sovava.server.util.CanvasMSG;
 import ykn.sovava.server.util.Header;
-
 import java.io.BufferedReader;
 import java.io.PrintStream;
+
+import static ykn.sovava.client.GUI.MenuClient.myCommand;
 
 /**
  * Description: 画面初始化
@@ -23,14 +23,18 @@ public abstract class SceneChange extends SceneInit {
     protected PrintStream ps = null;
     protected BufferedReader br = null;
     private CanvasMSG canvasMSG;
-    double startX;
-    double startY;
-    double oldX = -1;
-    double oldY = -1;
+    private WritableImage snapshot;
+    private double startX;
+    private double startY;
+    private double myStartX;
+    private double myStartY;
+    private double oldX = -1;
+    private double oldY = -1;
 
     public SceneChange(Stage stage) {
         super(stage);
         setSendListener();
+        mouseListenerPaint();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -97,7 +101,10 @@ public abstract class SceneChange extends SceneInit {
             gc.drawImage(snapshot, 0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
             gc.strokeOval(beginX, beginY, endX - beginX, endY - beginY);
         }
-        snapshot = clientCanvas.snapshot(null, null);
+        if (canvasMSG.getPressFlag() == 1) {
+            snapshot = clientCanvas.snapshot(null, null);
+        }
+
     }
 
 
@@ -120,5 +127,74 @@ public abstract class SceneChange extends SceneInit {
         if (msgText != null) msgText.clear();
     }
 
+    public void mouseListenerPaint() {
+
+        //鼠标落下即可得到起始位置的坐标点
+        clientCanvas.setOnMousePressed(event -> {
+            myStartX = event.getX();
+            myStartY = event.getY();
+            snapshot = clientCanvas.snapshot(null, null);
+
+        });
+        //监听鼠标拖拽来绘制图形
+        clientCanvas.setOnMouseDragged(event -> {
+
+            double beginX = myStartX;
+            double beginY = myStartY;
+
+            double endX = event.getX();
+            double endY = event.getY();
+
+            gc.setStroke(MenuClient.myStrokeColor);
+//            System.out.println("change" + MenuClient.myStrokeWidth);
+            gc.setLineWidth(MenuClient.myStrokeWidth);
+            if (myCommand == 1) {
+
+                if (endX < myStartX) {
+                    beginX = endX;
+                    endX = myStartX;
+                }
+                if (endY < myStartY) {
+                    beginY = endY;
+                    endY = myStartY;
+                }
+                gc.clearRect(0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+
+                gc.drawImage(snapshot, 0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+
+                gc.strokeRect(beginX, beginY, endX - beginX, endY - beginY);
+
+            } else if (myCommand == 0) {
+
+                gc.strokeLine(myStartX, myStartY, endX, endY);
+
+                myStartX = endX;
+                myStartY = endY;
+            } else if (myCommand == 3) {
+                gc.clearRect(0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+                gc.drawImage(snapshot, 0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+                gc.strokeLine(myStartX, myStartY, endX, endY);
+            } else if (myCommand == 2) {
+                if (endX < myStartX) {
+                    beginX = endX;
+                    endX = myStartX;
+                }
+                if (endY < myStartY) {
+                    beginY = endY;
+                    endY = myStartY;
+                }
+                gc.clearRect(0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+                gc.drawImage(snapshot, 0, 0, clientCanvas.getWidth(), clientCanvas.getHeight());
+                gc.strokeOval(beginX, beginY, endX - beginX, endY - beginY);
+            }
+
+
+        });
+        //鼠标落下后将canvas的内容通过快照来记录
+        clientCanvas.setOnMouseReleased(event -> {
+            snapshot = clientCanvas.snapshot(null, null);
+        });
+
+    }
 
 }
